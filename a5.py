@@ -125,7 +125,7 @@ class Board:
         Returns:
             True if we've placed all numbers, False otherwise
         """
-        pass
+        return self.num_nums_placed == self.size * self.size
 
     def update(self, row: int, column: int, assignment: int) -> None:
         """Assigns the given value to the cell given by passed in row and column
@@ -139,7 +139,9 @@ class Board:
             column - index of the column to assign
             assignment - value to place at given row, column coordinate
         """
-        pass
+        # more to do
+
+        self.nums_nums_placed += 1
 
 
 def DFS(state: Board) -> Board:
@@ -179,7 +181,9 @@ if __name__ == "__main__":
     # print("<<<<<<<<<<<<<< Solving Sudoku >>>>>>>>>>>>>>")
 
     # def test_dfs_or_bfs(use_dfs: bool, moves: List[Tuple[int, int, int]]) -> None:
-    #     b = Board()
+    b = Board()
+    print(b)
+    b.print_pretty()
     #     # make initial moves to set up board
     #     for move in moves:
     #         b.update(*move)
@@ -325,4 +329,3 @@ if __name__ == "__main__":
     # print("<<<<<<<<<<<<<< Testing BFS on Second Game >>>>>>>>>>>>>>")
 
     # test_dfs_or_bfs(False, second_moves)
-    pass
