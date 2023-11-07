@@ -106,7 +106,16 @@ class Board:
         Returns:
             a tuple of row, column index identifying the most constrained cell
         """
-        pass
+        row = 0
+        col = 0
+        mini = self.size
+        for i in range(self.size):
+            for j in range(self.size):
+                if isinstance(self.rows[i][j], list) and len(self.rows[i][j]) < mini:
+                    mini = len(self.rows[i][j])
+                    row = i
+                    col = j
+                    # print(self.rows[i][j])
 
     def failure_test(self) -> bool:
         """Check if we've failed to correctly fill out the puzzle. If we find a cell
@@ -116,7 +125,10 @@ class Board:
         Returns:
             True if we have failed to fill out the puzzle, False otherwise
         """
-        pass
+        for row in self.rows:
+            for col in row:
+                if col == []:
+                    return True
 
     def goal_test(self) -> bool:
         """Check if we've completed the puzzle (if we've placed all the numbers).
@@ -139,10 +151,16 @@ class Board:
             column - index of the column to assign
             assignment - value to place at given row, column coordinate
         """
-        # more to do
+        
+        self.rows[row][column] = assignment
+        self.num_nums_placed += 1
 
-        self.nums_nums_placed += 1
-
+        for i in range(self.size):
+            remove_if_exists(self.rows[row][i], assignment)
+            remove_if_exists(self.rows[i][column], assignment)
+        for i, j in self.subgrid_coordinates(row, column):
+            remove_if_exists(self.rows[i][j], assignment)
+        # print(self.subgrid_coordinates(row, column))
 
 def DFS(state: Board) -> Board:
     """Performs a depth first search. Takes a Board and attempts to assign values to
@@ -184,6 +202,12 @@ if __name__ == "__main__":
     b = Board()
     print(b)
     b.print_pretty()
+    b.update(0, 0, 4)
+    b.update(2, 1, 7)
+    b.update(0, 5, 3)
+    b.update(7, 1, 9)
+    b.print_pretty()
+    print(b)
     #     # make initial moves to set up board
     #     for move in moves:
     #         b.update(*move)
